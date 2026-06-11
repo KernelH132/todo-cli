@@ -111,5 +111,3 @@ GOOS=darwin GOARCH=amd64 go build -o todo-mac
 ## Requirements
 
 - Go 1.16 or higher
-
-```
