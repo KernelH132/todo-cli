@@ -119,6 +119,44 @@ func deleteTask(taskID int, filname string) error {
 	return saveTaskToFile(alltasks, filname)
 }
 
+func markAsDone(taskID int, filename string) error {
+	var allTasks []Task
+
+	task, err := os.ReadFile(filename)
+	if err != nil {
+		if os.IsNotExist(err) {
+			fmt.Println("File does not exists.")
+			return nil
+		}
+		return err
+	}
+
+	if err := json.Unmarshal(task, &allTasks); err != nil {
+		return err
+	}
+
+	if len(allTasks) == 0 {
+		fmt.Println("No tasks found.")
+		return nil
+	}
+
+	found := false
+	for i := range allTasks {
+		if allTasks[i].ID == taskID {
+			allTasks[i].Completed = true
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		return fmt.Errorf("task with ID %d not found", taskID)
+	}
+
+	return saveTaskToFile(allTasks, filename)
+
+}
+
 func main() {
 
 	if len(os.Args) < 2 {
@@ -158,13 +196,30 @@ func main() {
 		}
 
 		fmt.Printf("Task %d deleted\n", id)
+	case "done":
+		if len(os.Args) < 3 {
+			fmt.Println("Error: Please provide a task ID.")
+			return
+		}
+
+		id, err := strconv.Atoi(os.Args[2])
+		if err != nil {
+			fmt.Println("Error: Invalid task ID.")
+			return
+		}
+
+		if err := markAsDone(id, filename); err != nil {
+			fmt.Printf("Error: %v\n", err)
+			return
+		}
+		fmt.Printf("Task %d marked as done.\n", id)
 	case "list":
 		if err := listAllTasks(filename); err != nil {
 			fmt.Printf("Error listing tasks: %v\n", err)
 		}
 
 	case "help":
-		fmt.Println("Usage: todo [add|list|done]")
+		fmt.Println("Usage: todo list\n todo delete [task id] \n todo help \n todo add [task]")
 
 	default:
 		fmt.Println("Invalid command. Try \"todo help\" to see available commands.")
