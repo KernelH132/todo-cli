@@ -76,6 +76,7 @@ func listAllTasks(filename string) error {
 		return nil
 	}
 
+	fmt.Println("\nTodo List: \n----------")
 	for _, t := range allTasks {
 		status := " "
 		if t.Completed {
