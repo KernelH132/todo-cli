@@ -50,6 +50,12 @@ Todo List:
 # Output: Task 2 deleted
 ```
 
+### Mark a task as done
+```bash
+./todo done 1
+# Output: Task 1 marked as done.
+```
+
 ### Get help
 ```bash
 ./todo help
@@ -61,6 +67,7 @@ Todo List:
 |---------|-------------|---------|
 | `add <title>` | Add a new task | `todo add "Write code"` |
 | `list` | Show all tasks | `todo list` |
+| `done` | Mark task as done | `todo done 1` |
 | `delete <id>` | Delete a task by ID | `todo delete 3` |
 | `help` | Show help message | `todo help` |
 
@@ -88,6 +95,7 @@ Example `task.json`:
 
 - ✅ Add new tasks
 - 📋 List all tasks with status
+- ✅  Mark a task as done
 - 🗑️ Delete tasks by ID
 - 💾 Persistent storage using JSON
 - 🎯 Auto-incrementing task IDs
