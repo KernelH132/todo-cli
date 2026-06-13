@@ -42,7 +42,13 @@ func appendTaskToFile(newTask Task, filename string) error {
 		return err
 	}
 
-	newTask.ID = len(tasks) + 1
+	maxID := 0
+	for _, t := range tasks {
+		if t.ID > maxID {
+			maxID = t.ID
+		}
+	}
+	newTask.ID = maxID + 1
 
 	tasks = append(tasks, newTask)
 
@@ -219,7 +225,7 @@ func main() {
 		}
 
 	case "help":
-		fmt.Println("Usage: todo list\n todo delete [task id] \n todo help \n todo add [task]")
+		fmt.Println("Usage: ./todo \n add [task] \n list \n done [task id] \n delete [task id] \n help")
 
 	default:
 		fmt.Println("Invalid command. Try \"todo help\" to see available commands.")
