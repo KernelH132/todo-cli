@@ -1,5 +1,3 @@
-Here's a simple README for your Todo CLI app:
-
 ```markdown
 # Todo CLI - Command Line Task Manager
 
